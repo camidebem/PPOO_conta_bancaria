@@ -1,133 +1,111 @@
-# Exercício Conta Bancária
+# Conta Bancaria - Parte 2
 
-Este exercício é dado na parte de revisão de Conceitos Básicos de Orientação a Objetos da disciplina GAC106 - Práticas de Programação Orientada a Objetos.
+Este exercício tem como objetivo trabalhar o conceito de Coleções em Java.
+Ele é uma continuação de um exercício anterior ([Conta Bancaria](https://github.com/ufla-ppoo/ContaBancaria)).
 
-Basta seguir os passos relatados a seguir.
+Para fazer o exercício basta seguir os passos abaixo.
+Não se esqueça de fazer um commit e sincronizar suas alterações ao final de cada passo.
 
-## Passo 1 - Representando uma conta bancária
+## Passo 0 - Código do exercício anterior
 
-Esse e os próximos exercícios se referem às operações de uma conta bancária.
-Nesse primeiro passo, crie uma classe para representar uma conta bancária, que atenda às necessidades abaixo.
-Lembre-se de usar adequadamente os modificadores de visibilidade (`public` ou `private`) dos atributos e métodos.
+Neste passo, você deverá pegar o código do exercício anterior de conta bancária e utilizá-lo como o código inicial deste exercício.
+Para isso, basta copiar os arquivos de extensão `.java` do exercício anterior para a pasta `src` deste projeto.
 
-- As contas devem possuir um saldo e um limite.
-- Deve existir um método para consultar o saldo.
-- Devem existir métodos para saque e para depósito de valores na conta.
-- A conta pode ter saldo negativo no máximo até o limite estabelecido.
-- A classe não deve ter nenhuma interação com o usuário (ou seja, dentro dela não deve existir exibição de mensagens, nem leitura de dados).
+Observação: caso você não tenha feito todos os passos do exercício anterior, é necessário fazer isso agora, para que consiga fazer os passos abaixo.
 
-## Passo 2 - Representando um caixa eletrônico
+## Passo 1 - Coleção de Contas
 
-Crie também uma outra classe que represente um Caixa Eletrônico.
-Nesta classe, por enquanto, crie um atributo para guardar uma única conta
-(dica: siga exatamente o que pede o enunciado, portanto, não crie vetor nem ArrayList de contas).
+No exercício anterior, ao tratar a transferência entre as contas, nós criamos dois atributos na classe que trata o caixa eletrônico para tratar duas contas diferentes.
+Mas agora que conhecemos o conceito de coleções, vamos substituir esses dois atributos por uma lista de contas, utilizando a classe `ArrayList`.
+Com isso, o usuário poderá criar quantas contas ele quiser.
 
-Em seguida implemente um menu com as opções abaixo (implemente métodos separados para tratar cada opção).
+Além disso, você deve incluir uma nova opção no menu para listar todas as contas já criadas.
 
+- Ao acessar esta opção, o programa deve exibir os dados de cada conta (número e nome do cliente) em uma linha separada.
+
+Lembre-se que no exercício anterior já alteramos nosso código para que o usuário informe o código da(s) conta(s) a ser(em) utilizada(s) nas operações de consultar saldo, saque, depósito e transferência.
+
+- Agora você deverá alterar a implementação para que a conta solicitada pelo usuário seja buscada na lista de contas.
+
+Obs.: lembre-se que não devem existir duas contas com o mesmo número na lista de contas (o Passo 6 do exercício anterior já garante que cada objeto conta tem um número diferente).
+
+## Passo 2 - Remoção de Contas
+
+Vamos agora adicionar uma nova opção no menu do nosso programa para que o usuário consiga remover uma conta da lista.
+
+- O usuário deverá informar o número da conta a ser removida.
+- A conta só poderá ser removida se o seu saldo for igual a zero.
+
+  - Se tiver dinheiro na conta, deve ser exibida uma mensagem para o usuário dizendo que não é possível cancelar contas com saldo disponível.
+  - Se a conta estiver usando o limite (ou seja, tiver saldo negativo), deve ser exibida mensagem dizendo que não é possível cancelar contas em débito.
+
+## Passo 3 - Filtrar contas pelo nome do cliente
+
+Agora vamos adicionar uma nova opção de menu para filtrar as contas de acordo com o nome do cliente.
+Esta opção deve funcionar da seguinte forma:
+
+- O usuário deverá informar uma string com o nome (ou parte do nome) de um cliente.
+- O programa exibirá então os dados (número da conta e nome do cliente) das contas que tenham o nome (ou a parte do nome) informada pelo usuário.
+
+Exemplo:
+
+Suponha que existam as seguintes contas (números de conta e nomes de clientes):
+
+```text
+1000 - João da Silva
+1001 - Joaquim Ferreira
+1002 - Maria Pereira
+1003 - Pedro José
 ```
-1. Criar Conta
-2. Consultar Saldo
-3. Depositar
-4. Sacar
-5. Sair
-```
 
-Por fim, altere a classe que tem o método `main`, para que nele seja criado um objeto da classe que representa o caixa eletrônico e dispare a execução do menu.
+E suponha que o usuário informe a string `"Jo"`.
 
-- Dica 1: lembre-se de há um exemplo de implementação de menu no gabarito do exercício prático da aula passada.
-- Dica 2: repare que se o usuário acessar as opções que alteram a conta, antes da conta ser criada, ocorrerá um erro de `NullPointerException`. Podemos facilmente evitar esse problema, verificando primeiro se o atributo que representa a conta é diferente de `null` (e informando apropriadamente ao usuário).
+- Nesse caso, deverão ser exibidos os dados das contas 1000, 1001 e 1003, pois em todas elas os nomes dos clientes possuem a substring `"Jo"`.
 
-Teste suas implementações!
+> **Dica 1: método `contains`**
+> 
+> A classe String do Java possui um método chamado `contains` que indica se uma string possui uma determinada substring.
+> O programa abaixo ilustra a utilização de tal método.
+> Experimente implementá-lo em seu computador.
+> 
+> ```java
+> Scanner entrada = new Scanner(System.in);
+> 
+> System.out.println("Digite uma frase:");
+> String frase = entrada.nextLine();
+> 
+> System.out.println("Digite uma palavra:");
+> String palavra = entrada.nextLine();
+> 
+> if (frase.contains(palavra)) {
+>     System.out.println("Palavra existe na frase");
+> }
+> else {
+>     System.out.println("Palavra não encontrada!");
+> }
+> ```
 
-## Passo 3 - Representando um cliente
 
-A classe que representa as contas passará a ter os dados do seu titular.
-Para isso, vamos primeiro criar uma nova classe para representar um cliente.
-Tal classe deve ter:
+> **Dica 2: maiúsculas e minúsculas**
+> 
+> A princípio, não é necessário tratar a questão de maiúsculas e minúsculas.
+> Por exemplo, se o usuário digitasse `"jo"` no exemplo acima, nenhuma conta seria exibida.
+> 
+> Mas, note que não é difícil permitir que o usuário digite uma substring sem se preocupar com isso.
+> Basta fazer uma busca na internet por métodos da classe `String` do Java que convertam strings para minúsculo/maiúsculo, ou que comparem strings ignorando essa questão.
 
-- Atributos nome e CPF (podem ser do tipo `String` mesmo).
-- Métodos para consultar o nome e o CPF do cliente.
-- Lembrando que esta classe também não deve ter nenhuma interação com o usuário.
+## (Opcional) Passo 4 – Entendendo as vantagens da classe HashMap
 
-## Passo 4 - Tratando titular da conta
+No Passo 1 nós criamos um objeto `ArrayList` para gerenciar a coleção de contas no nosso programa.
+Agora veremos quais são as vantagens de se utilizar um objeto `HashMap` para fazer a mesma coisa.
 
-Altere a classe que representa a conta bancária para que ela tenha um atributo do tipo cliente, e altere o construtor da classe de forma que ele receba um objeto cliente por parâmetro.
+- Obs.: a implementação deste passo deve ser feita em uma nova classe, pois ele vai alterar o que você fez nos passos anteriores e eu preciso ver sua implementação anterior para corrigir seu exercício. Portanto, você deve primeiro criar uma nova classe para representar o caixa eletrônico (exemplo: `CaixaEletronicoComHashMap`).
 
-Por fim, altere a classe que representa o caixa eletrônico para que:
+Nesta nova classe você deverá:
 
-- Na criação de contas, obtenha do usuário o nome e o CPF do cliente, crie o objeto correspondente, e utilize-o para criar a conta.
-- Na opção de consultar saldo, seja exibido o nome do titular da conta junto com o saldo.
-
-Teste suas implementações!
-
-## Passo 5 - Construtores
-
-Altere a classe que representa as contas bancárias de forma que ela passe a ter dois construtores.
-
-- Os dois construtores devem receber o cliente e o valor do limite da conta.
-- E apenas um deles deve receber o valor do saldo inicial da conta. Portanto, no outro construtor o saldo deve ser inicializado com zero.
-
-Altere então a classe do caixa eletrônico para que existam duas opções diferentes de criação de contas.
-
-- Uma que pede para o usuário o saldo inicial e outra que não pede.
-- Cada opção deve chamar o construtor correspondente.
-
-Como o operador `this` poderia ser utilizado em um dos construtores para evitar replicação de código? (Dica: veja os slides de revisão dos conceitos de OO).
-
-Teste suas implementações!
-
-## Passo 6 - Numeração das contas
-
-Neste passo, a ideia é que as contas bancárias tenham um novo atributo para guardar o número da conta e um método que retorne essa informação.
-
-Nós poderíamos receber o número de cada conta no construtor e deixar a classe do caixa eletrônico definir a numeração.
-Mas é mais interessante se a própria classe que representa as contas tratar automaticamnete a numeração, utilizando o conceito de atributo estático.
-
-Para isso, crie um atributo estático na classe que representa as contas para guardar o número da última conta criada (inicialmente ele deve ter o valor 100).
-Repare que são dois atributos diferentes:
-
-- Um é o número da conta que é diferente para cada conta (atributo comum).
-- E o outro é um atributo estático que indica o número da última conta criada (atibuto estático, que tem o mesmo valor para todas as contas).
-
-No construtor da classe que representa as contas o atributo estático deve ser incrementado, e o seu valor deve ser usado como número da conta que está sendo criada.
-
-## Passo 7 - Tratando mais de uma conta
-
-Na classe que trata o caixa eletrônico, crie mais um atributo para que ela passe então a tratar duas contas bancárias.
-
-- Na opção de menu de criar contas, trate para que o usuário forneça os dados das duas contas.
-- Após a criação de cada conta, o programa deve exibir o número gerado para cada conta de forma que o usuário saiba o número que deve usar nas demais operações.
-
-Lembre-se também de alterar as demais opções de menu (consultar saldo, saque e depósito), pois o usuário terá agora que informar o número da conta com a qual ele quer tratar.
-
-Teste suas implementações!
-
-## Passo 8 - Transferência entre contas
-
-Agora que conseguimos criar contas diferentes, podemos fazer transferências entre elas.
-Crie um método na classe que representa as contas para realizar a transferência entre duas contas.
-
-- O método deve receber por parâmetro o valor a ser transferido e o objeto da conta de destino.
-- O método não deve alterar diretamente o saldo da conta e sim chamar os métodos de saque e depósito apropriadamente.
-- Lembre-se que a conta não deve permitir a transferência se o valor solicitado estiver além do limite da conta de origem.
-
-Na classe que representa o caixa eletrônico, crie uma opção de menu para transferência entre contas.
-
-- O usuário deverá escolher qual será a conta de origem e qual será a conta de destino (de acordo com os números das contas).
-
-Teste suas implementações!
-
-## (Opcional) Passo 9 - Rendimento na conta
-
-Suponha que nossa conta é especial e possui um rendimento periódico.
-Para tratá-lo faça o seguinte:
-
-- Na classe que representa as contas, crie um atributo estático para guardar o valor da taxa de rendimento (percentual).
-- Crie um método `render` que aplica a taxa de rendimento ao saldo da conta. Avalie se tal método deve ser estático ou não.
-- Pro fim, crie uma opção de menu na classe que representa o caixa eletrônico para que o usuário possa fazer a conta render.
-
-## (Opcional) Passo 10 - Alterando rendimento
-
-Crie um método na classe que representa as contas para alterar a taxa de rendimento da conta (e crie uma opção de menu para o usuário informar a nova taxa).
-
-Avalie se o método deve ser estático ou não.
+- Substituir o objeto `ArrayList` de contas por um objeto `HashMap` de contas, no qual a chave é o número da conta e o valor é um objeto do tipo conta.
+- Alterar a opção de listar contas para utilizar o `HashMap`.
+- Alterar as opções de operação das contas (saldo, depósito, etc.) para buscar a conta do `HashMap`.
+  - O que achou de como o código ficou em comparação com o anterior?
+- Alterar a opção de remoção de contas para remover do HashMap.
+  - O que achou de como o código ficou em comparação com o anterior?
